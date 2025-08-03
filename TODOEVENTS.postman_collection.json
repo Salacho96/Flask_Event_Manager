@@ -1,0 +1,414 @@
+{
+	"info": {
+		"_postman_id": "e16af4f2-5136-47ce-8506-2b4e6ce0a4ea",
+		"name": "TODOEVENTS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39294107"
+	},
+	"item": [
+		{
+			"name": "user_register",
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"juana@test.com\",\n    \"password\": \"123456\",\n    \"role\": \"ORGANIZER\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"julian@test.com\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_events",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_events",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1NDIzNzM0MiwianRpIjoiYjVhZmI1N2YtOGI0Zi00ZTMzLTk3MTItNWIyZTE3Mzk0NjY3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjEiLCJuYmYiOjE3NTQyMzczNDIsImNzcmYiOiIxNzQ1NTYzYS03MmUzLTRhMDQtODAyMS0zMDJlZWQwMWU3YWMiLCJleHAiOjE3NTQzMjM3NDIsImVtYWlsIjoianVsaWFuQHRlc3QuY29tIiwicm9sZSI6Im9yZ2FuaXplciJ9.XWghJ7UvedM6qnm2190rlIlwjbrhEJQTONanPfwz-_M"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"reactive programming Conference 2025\",\n    \"description\": \"Annual event reactive programming\",\n    \"capacity\": 200,\n    \"status\": \"published\",\n    \"start_at\": \"2025-08-15T09:00:00\",\n    \"end_at\": \"2025-08-15T18:00:00\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"events"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:5000/api/v1/events \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1NDE2NDg1NCwianRpIjoiNjNiYzZmNDktNzhkNi00MjYxLTkyOWYtNzU4NzkyZWE2MDIwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NSwibmJmIjoxNzU0MTY0ODU0LCJjc3JmIjoiNTYxZTAwNjMtODQ2Ny00OWVmLTk1NjItMDk0ZmRlNjkyM2Q0IiwiZXhwIjoxNzU0MTY4NDU0LCJlbWFpbCI6Imp1YW5pdGFAdGVzdC5jb20iLCJyb2xlIjoib3JnYW5pemVyIn0.OD-AK34Rjvr6AaF1XCd7opvYCJ-aYXyOvzIiMfAxz30\" \\\n  -d '{\n    \"name\": \"AI & Cloud Conference 2025\",\n    \"description\": \"Annual event about AI and cloud technologies\",\n    \"capacity\": 200,\n    \"status\": \"open\"\n  }'\n"
+			},
+			"response": []
+		},
+		{
+			"name": "update_event",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1NDE5MzM4OSwianRpIjoiNTQyYWZmYzktZmQzZC00OGFkLWE5NGUtYWQ2Y2FkNmI3ZDQ0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjUiLCJuYmYiOjE3NTQxOTMzODksImNzcmYiOiIzZTgzYTQ5ZS01OWY3LTRmMzgtODZlYS1mNTE2ZTRkNzU3MWYiLCJleHAiOjE3NTQyNzk3ODksImVtYWlsIjoianVhbml0YUB0ZXN0LmNvbSIsInJvbGUiOiJvcmdhbml6ZXIifQ.AW5xY_u5jClpBQcaOXbwqkjuWYwGAHY5p0hLh7II0Gc"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Reactive programing Conference 2025 - Updated\",\n    \"description\": \"Updated description for Reactive programing event\",\n    \"capacity\": 5,\n    \"status\": \"draft\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/events/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"events",
+						"5"
+					]
+				},
+				"description": "Generated from cURL: curl -X PUT http://localhost:5000/api/v1/events/1 \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1NDE2NDg1NCwianRpIjoiNjNiYzZmNDktNzhkNi00MjYxLTkyOWYtNzU4NzkyZWE2MDIwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NSwibmJmIjoxNzU0MTY0ODU0LCJjc3JmIjoiNTYxZTAwNjMtODQ2Ny00OWVmLTk1NjItMDk0ZmRlNjkyM2Q0IiwiZXhwIjoxNzU0MTY4NDU0LCJlbWFpbCI6Imp1YW5pdGFAdGVzdC5jb20iLCJyb2xlIjoib3JnYW5pemVyIn0.OD-AK34Rjvr6AaF1XCd7opvYCJ-aYXyOvzIiMfAxz30\" \\\n  -d '{\n    \"name\": \"AI & Cloud Conference 2025 - Updated\",\n    \"description\": \"Updated description for AI and cloud event\",\n    \"capacity\": 250,\n    \"status\": \"open\"\n  }'\n"
+			},
+			"response": []
+		},
+		{
+			"name": "eliminar_evento",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/events/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"events",
+						"1"
+					]
+				},
+				"description": "Generated from cURL: curl -X DELETE http://localhost:5000/api/v1/events/1\n"
+			},
+			"response": []
+		},
+		{
+			"name": "register_to_events",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": 4,\n    \"event_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/attendees/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"attendees",
+						"register"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:5000/api/v1/attendees/register \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"user_id\": 1,\n    \"event_id\": 1\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "get_events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/attendees/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"attendees",
+						"3"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET http://localhost:5000/api/v1/attendees/1"
+			},
+			"response": []
+		},
+		{
+			"name": "create_sesion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"event_id\": 1,\n    \"title\": \"AI and Cloud\",\n    \"start_time\": \"2025-08-01T09:00:00\",\n    \"end_time\": \"2025-08-01T10:00:00\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/sessions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"sessions"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:5000/api/v1/sessions \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"event_id\": 1,\n    \"title\": \"AI and Cloud\",\n    \"start_time\": \"2025-08-01T09:00:00\",\n    \"end_time\": \"2025-08-01T10:00:00\"\n  }'\n"
+			},
+			"response": []
+		},
+		{
+			"name": "lista_usuarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET http://localhost:5000/api/v1/users\n"
+			},
+			"response": []
+		},
+		{
+			"name": "get_user_id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"1"
+					]
+				},
+				"description": "Generated from cURL: curl -X GET http://localhost:5000/api/v1/users/1\n"
+			},
+			"response": []
+		},
+		{
+			"name": "get_event_by_name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/events?search=Reactive",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"events"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "Reactive"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl -X GET \"http://localhost:5000/api/v1/events?search=Tech\"\n"
+			},
+			"response": []
+		},
+		{
+			"name": "create_sesion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"event_id\": 3,\n    \"title\": \"AI and Cloud\",\n    \"speaker\": \"MS David\",\n    \"capacity\": 5,\n    \"start_time\":\"2025-08-01T09:00:00\",\n    \"end_time\": \"2025-08-01T14:00:00\",\n    \"created_at\": \"2025-08-01T09:00:00\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/sessions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"sessions"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:5000/api/v1/sessions \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"event_id\": 1,\n    \"title\": \"AI and Cloud\",\n    \"start_time\": \"2025-08-01T09:00:00\",\n    \"end_time\": \"2025-08-01T10:00:00\"\n  }'\n"
+			},
+			"response": []
+		}
+	]
+}

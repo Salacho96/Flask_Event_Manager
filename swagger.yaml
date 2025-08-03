@@ -1,0 +1,285 @@
+openapi: 3.0.0
+info:
+  title: TODOEVENTS
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    noauthAuth:
+      type: http
+      scheme: noauth
+paths:
+  /api/v1/auth/register:
+    post:
+      tags:
+        - default
+      summary: user_register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: juana@test.com
+                password: '123456'
+                role: ORGANIZER
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/auth/login:
+    post:
+      tags:
+        - default
+      summary: user_login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: julian@test.com
+                password: '123456'
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/events:
+    get:
+      tags:
+        - default
+      summary: get_event_by_name
+      description: >
+        Generated from cURL: curl -X GET
+        "http://localhost:5000/api/v1/events?search=Tech"
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: Reactive
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - default
+      summary: create_events
+      description: |
+        Generated from cURL: curl -X POST http://localhost:5000/api/v1/events \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1NDE2NDg1NCwianRpIjoiNjNiYzZmNDktNzhkNi00MjYxLTkyOWYtNzU4NzkyZWE2MDIwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NSwibmJmIjoxNzU0MTY0ODU0LCJjc3JmIjoiNTYxZTAwNjMtODQ2Ny00OWVmLTk1NjItMDk0ZmRlNjkyM2Q0IiwiZXhwIjoxNzU0MTY4NDU0LCJlbWFpbCI6Imp1YW5pdGFAdGVzdC5jb20iLCJyb2xlIjoib3JnYW5pemVyIn0.OD-AK34Rjvr6AaF1XCd7opvYCJ-aYXyOvzIiMfAxz30" \
+          -d '{
+            "name": "AI & Cloud Conference 2025",
+            "description": "Annual event about AI and cloud technologies",
+            "capacity": 200,
+            "status": "open"
+          }'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: reactive programming Conference 2025
+                description: Annual event reactive programming
+                capacity: 200
+                status: published
+                start_at: '2025-08-15T09:00:00'
+                end_at: '2025-08-15T18:00:00'
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1NDIzNzM0MiwianRpIjoiYjVhZmI1N2YtOGI0Zi00ZTMzLTk3MTItNWIyZTE3Mzk0NjY3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjEiLCJuYmYiOjE3NTQyMzczNDIsImNzcmYiOiIxNzQ1NTYzYS03MmUzLTRhMDQtODAyMS0zMDJlZWQwMWU3YWMiLCJleHAiOjE3NTQzMjM3NDIsImVtYWlsIjoianVsaWFuQHRlc3QuY29tIiwicm9sZSI6Im9yZ2FuaXplciJ9.XWghJ7UvedM6qnm2190rlIlwjbrhEJQTONanPfwz-_M
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/events/5:
+    put:
+      tags:
+        - default
+      summary: update_event
+      description: |
+        Generated from cURL: curl -X PUT http://localhost:5000/api/v1/events/1 \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1NDE2NDg1NCwianRpIjoiNjNiYzZmNDktNzhkNi00MjYxLTkyOWYtNzU4NzkyZWE2MDIwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NSwibmJmIjoxNzU0MTY0ODU0LCJjc3JmIjoiNTYxZTAwNjMtODQ2Ny00OWVmLTk1NjItMDk0ZmRlNjkyM2Q0IiwiZXhwIjoxNzU0MTY4NDU0LCJlbWFpbCI6Imp1YW5pdGFAdGVzdC5jb20iLCJyb2xlIjoib3JnYW5pemVyIn0.OD-AK34Rjvr6AaF1XCd7opvYCJ-aYXyOvzIiMfAxz30" \
+          -d '{
+            "name": "AI & Cloud Conference 2025 - Updated",
+            "description": "Updated description for AI and cloud event",
+            "capacity": 250,
+            "status": "open"
+          }'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Reactive programing Conference 2025 - Updated
+                description: Updated description for Reactive programing event
+                capacity: 5
+                status: draft
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc1NDE5MzM4OSwianRpIjoiNTQyYWZmYzktZmQzZC00OGFkLWE5NGUtYWQ2Y2FkNmI3ZDQ0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjUiLCJuYmYiOjE3NTQxOTMzODksImNzcmYiOiIzZTgzYTQ5ZS01OWY3LTRmMzgtODZlYS1mNTE2ZTRkNzU3MWYiLCJleHAiOjE3NTQyNzk3ODksImVtYWlsIjoianVhbml0YUB0ZXN0LmNvbSIsInJvbGUiOiJvcmdhbml6ZXIifQ.AW5xY_u5jClpBQcaOXbwqkjuWYwGAHY5p0hLh7II0Gc
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/events/1:
+    delete:
+      tags:
+        - default
+      summary: eliminar_evento
+      description: >
+        Generated from cURL: curl -X DELETE
+        http://localhost:5000/api/v1/events/1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/attendees/register:
+    post:
+      tags:
+        - default
+      summary: register_to_events
+      description: >-
+        Generated from cURL: curl -X POST
+        http://localhost:5000/api/v1/attendees/register \
+          -H "Content-Type: application/json" \
+          -d '{
+            "user_id": 1,
+            "event_id": 1
+          }'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                user_id: 4
+                event_id: 2
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/attendees/3:
+    get:
+      tags:
+        - default
+      summary: get_events
+      description: >-
+        Generated from cURL: curl -X GET
+        http://localhost:5000/api/v1/attendees/1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/sessions:
+    post:
+      tags:
+        - default
+      summary: create_sesion
+      description: >
+        Generated from cURL: curl -X POST http://localhost:5000/api/v1/sessions
+        \
+          -H "Content-Type: application/json" \
+          -d '{
+            "event_id": 1,
+            "title": "AI and Cloud",
+            "start_time": "2025-08-01T09:00:00",
+            "end_time": "2025-08-01T10:00:00"
+          }'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                event_id: 3
+                title: AI and Cloud
+                speaker: MS David
+                capacity: 5
+                start_time: '2025-08-01T09:00:00'
+                end_time: '2025-08-01T14:00:00'
+                created_at: '2025-08-01T09:00:00'
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users:
+    get:
+      tags:
+        - default
+      summary: lista_usuarios
+      description: |
+        Generated from cURL: curl -X GET http://localhost:5000/api/v1/users
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/1:
+    get:
+      tags:
+        - default
+      summary: get_user_id
+      description: |
+        Generated from cURL: curl -X GET http://localhost:5000/api/v1/users/1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
