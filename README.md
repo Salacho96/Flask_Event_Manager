@@ -37,5 +37,8 @@ python3 run.py
 The API is documented in POSTMAN and in the swagger.yaml
 
 # USAGE
+Please FORK the postman Collection from the todor Workspace into your personal Workspace, in that way if any change is made that will not affect others.
 
+
+# BACKUP USAGE
 Please FORK the postman Collection from the todor Workspace into your personal Workspace, in that way if any change is made that will not affect others.
