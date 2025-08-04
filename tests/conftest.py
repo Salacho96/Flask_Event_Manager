@@ -1,54 +1,39 @@
 import pytest
-from todor import create_app, db
-from flask_jwt_extended import create_access_token
-from todor.models.user import User
+from flask import Flask
+from todor.extensions import db
+from todor.api.v1.auth_routes import bp as auth_bp
+from todor.api.v1.event_routes import bp as event_bp
+from todor.api.v1.session_routes import bp as session_bp
+from todor.api.v1.user_routes import bp as user_bp
 
-@pytest.fixture
-def test_user(app):
-    user = User(
-        id=1,
-        email="julian@test.com",
-        role="admin",
-        password_hash=User.hash_password("123456")
-    )
-    db.session.add(user)
-    db.session.commit()
-    return user
-
-@pytest.fixture
+@pytest.fixture(scope='module')
 def app():
-    """Crea una instancia de la aplicación para pruebas."""
-    app = create_app()
+    """Fixture para la aplicación Flask con contexto de prueba."""
+    app = Flask(__name__)
+    app.config['TESTING'] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    app.config['JWT_SECRET_KEY'] = 'test-secret-key'
+    
+    
+    db.init_app(app)
 
-    # Configuración especial para testing
-    app.config.update({
-        "TESTING": True,
-        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
-        "SQLALCHEMY_TRACK_MODIFICATIONS": False,
-        "JWT_SECRET_KEY": "test-secret"
-    })
-
+    
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(event_bp)
+    app.register_blueprint(session_bp)
+    app.register_blueprint(user_bp)
+    
+    
     with app.app_context():
-        db.create_all()  
-        yield app
-        # db.session.remove()
-        # db.drop_all()  
+        db.create_all()
+    
+    yield app
+    
+    
+    with app.app_context():
+        db.drop_all()
 
-
-@pytest.fixture
+@pytest.fixture(scope='module')
 def client(app):
-    """Cliente de prueba para realizar requests."""
+    """Fixture para el cliente de pruebas HTTP."""
     return app.test_client()
-
-
-@pytest.fixture
-def runner(app):
-    """Runner para comandos CLI de Flask (si usas flask db, etc.)."""
-    return app.test_cli_runner()
-
-
-@pytest.fixture
-def auth_token(app):
-    """Genera un token JWT de prueba."""
-    with app.app_context():
-        return create_access_token(identity="1", additional_claims={"email": "test@test.com", "role": "organizer"})

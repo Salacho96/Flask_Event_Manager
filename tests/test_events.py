@@ -1,39 +1,109 @@
-from flask import Blueprint, request, jsonify, current_app
+import pytest
+from datetime import datetime
 import jwt
-from datetime import datetime, timedelta
+
+@pytest.fixture
+def mock_event(
+    mocker):
+    """Crea un evento simulado para las pruebas."""
+    mock_event = mocker.Mock()
+    mock_event.id = 1
+    mock_event.name = "Sample Event"
+    mock_event.capacity = 100
+    mock_event.status = "DRAFT" 
+    return mock_event
 
 
-def test_create_event(client):
-    payload = {
-        "sub": "1",  
-        "email": "test@example.com",
-        "role": "organizer",
-        "exp": datetime.utcnow() + timedelta(hours=1)
+def test_get_events(client, mocker, mock_event):
+    mock_query = mocker.patch("todor.models.event.Event.query")
+    mock_query.filter.return_value.all.return_value = [mock_event]
+    mock_query.all.return_value = [mock_event]
+
+    response = client.get("/api/v1/events")
+    data = response.get_json()
+
+    assert response.status_code == 200
+    assert isinstance(data, list)
+    assert data[0]["name"] == "Sample Event"
+    assert data[0]["capacity"] == 100
+
+
+def test_create_event_success(client, mocker, mock_event):
+    """Prueba unitaria de POST /api/v1/events (creación exitosa)"""
+    
+    mock_jwt = mocker.patch("todor.api.v1.event_routes.jwt")
+    mock_jwt.decode.return_value = {"sub": "1"}
+
+    
+    mock_schema = mocker.patch("todor.api.v1.event_routes.EventCreateSchema")
+    mock_schema.return_value.load.return_value = {
+        "name": "New Event",
+        "description": "Test event",
+        "capacity": 50,
+        "status": "draft",
+        "start_at": datetime.now(),
+        "end_at": datetime.now(),
     }
-    token = jwt.encode(payload, current_app.config["JWT_SECRET_KEY"], algorithm="HS256")
+
+    
+    mocker.patch("todor.models.event.Event", return_value=mock_event)
+
+    
+    mocker.patch("todor.extensions.db.session.add")
+    mocker.patch("todor.extensions.db.session.commit")
 
     response = client.post(
         "/api/v1/events",
-        json={
-            "name": "Test Event",
-            "description": "Test description",
-            "capacity": 50,
-            "status": "draft",
-            "start_at": "2025-08-10T09:00:00",
-            "end_at": "2025-08-10T17:00:00"
-        },
-        headers={"Authorization": f"Bearer {token}"}
+        json={"name": "New Event", "capacity": 50},
+        headers={"Authorization": "Bearer fake-token"},
     )
 
-    # 3. Verificaciones
-    print(response.get_json())  # Debug: Ver respuesta completa
     assert response.status_code == 201
-    assert "id" in response.get_json()
+    assert response.get_json()["message"] == "Event created"
 
 
+def test_create_event_invalid_token(client, mocker):
+    """Prueba POST /api/v1/events con token inválido"""
+    mock_decode = mocker.patch("todor.api.v1.event_routes.jwt.decode")
+    mock_decode.side_effect = jwt.InvalidTokenError("Invalid token")
+
+    response = client.post(
+        "/api/v1/events",
+        json={"name": "New Event", "capacity": 50},
+        headers={"Authorization": "Bearer bad-token"},
+    )
+
+    assert response.status_code == 401
+    assert response.get_json()["error"] == "Invalid token"
 
 
-def test_get_events(client, auth_token):
-    response = client.get("/api/v1/events", headers={"Authorization": f"Bearer {auth_token}"})
+def test_update_event_success(client, mocker, mock_event):
+    """Prueba PUT /api/v1/events/<id>"""
+    mock_query = mocker.patch("todor.models.event.Event.query")
+    mock_query.get_or_404.return_value = mock_event
+
+    mocker.patch("todor.extensions.db.session.commit")
+
+    response = client.put(
+        "/api/v1/events/1",
+        json={"name": "Updated Event", "capacity": 200}
+    )
+
     assert response.status_code == 200
-    assert isinstance(response.get_json(), list)
+    assert response.get_json()["message"] == "Event updated"
+    assert mock_event.name == "Updated Event"
+    assert mock_event.capacity == 200
+
+
+def test_delete_event_success(client, mocker, mock_event):
+    """Prueba DELETE /api/v1/events/<id>"""
+    mock_query = mocker.patch("todor.models.event.Event.query")
+    mock_query.get_or_404.return_value = mock_event
+
+    mocker.patch("todor.extensions.db.session.delete")
+    mocker.patch("todor.extensions.db.session.commit")
+
+    response = client.delete("/api/v1/events/1")
+
+    assert response.status_code == 200
+    assert response.get_json()["message"] == "Event deleted"
