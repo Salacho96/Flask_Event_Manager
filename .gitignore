@@ -1,0 +1,55 @@
+# Entorno virtual
+env-todo/
+venv/
+.env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.py~
+*.egg-info/
+*.egg
+dist/
+build/
+*.so
+.Python
+
+# Archivos de configuración local
+*.local
+*.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# IDE/Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Logs y bases de datos
+*.log
+*.sqlite
+*.db
+
+# Archivos temporales
+*.tmp
+*.bak
+*.cache
+
+# Archivos de Jupyter Notebook
+.ipynb_checkpoints/
+
+# Archivos de testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
