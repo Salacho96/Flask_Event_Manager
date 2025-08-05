@@ -1,15 +1,3 @@
-# from flask import Blueprint
-
-# bp = Blueprint('auth', __name__, url_prefix='/auth')
-
-# @bp.route('/register')
-# def register():
-#     return "registro de usuario"
-
-# @bp.route('/login')
-# def login():
-#     return "login de usuario"
-
 import os
 
 class Config:

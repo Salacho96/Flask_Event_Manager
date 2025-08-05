@@ -16,7 +16,7 @@ def register():
     if User.query.filter_by(email=data["email"]).first():
         return jsonify({"error": "User already exists"}), 400
 
-    # Validar rol, si no se envía usar ATTENDEE como default
+    
     role_value = data.get("role", "ATTENDEE").upper()
 
     if role_value not in RoleEnum.__members__:

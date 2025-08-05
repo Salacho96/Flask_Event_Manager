@@ -32,26 +32,26 @@ def create_event():
     if auth_header and auth_header.startswith("Bearer "):
         token = auth_header.split(" ")[1]
 
-    print(f"JWT Token: {token}")
 
-    # Decodificar el token JWT
+
+    
     try:
         decoded_token = jwt.decode(token, current_app.config["JWT_SECRET_KEY"], algorithms=["HS256"])
         print("Decoded token:", decoded_token)
-        created_by_id = int(decoded_token["sub"])  # Usuario que crea el evento
+        created_by_id = int(decoded_token["sub"])  
     except jwt.ExpiredSignatureError:
         return jsonify({"error": "Token has expired"}), 401
     except jwt.InvalidTokenError:
         return jsonify({"error": "Invalid token"}), 401
 
-    # Validar datos del body con Marshmallow
+    
     try:
         validated_data = EventCreateSchema().load(data)
     except ValidationError as err:
         print("Validation errors:", err.messages)
         return jsonify({"errors": err.messages}), 422
 
-    # Validar el status
+    
     status_value = validated_data.get("status", "draft").upper()
     if status_value not in EventStatus.__members__:
         return jsonify({
