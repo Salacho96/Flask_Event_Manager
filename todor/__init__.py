@@ -23,7 +23,7 @@ def create_app(config_class=Config):
     app.config.from_mapping(
         DEBUG=True,
         SECRET_KEY="dev",
-        SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://postgres:postgres@localhost:5434/todoevents"
+        SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://postgres:postgres@db:5432/todoevents"
     )
 
 
