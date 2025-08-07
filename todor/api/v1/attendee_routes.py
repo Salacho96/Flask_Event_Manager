@@ -3,17 +3,26 @@ from todor.extensions import db
 from todor.models.attendee import Attendee
 from todor.models.event import Event
 from todor.models.user import User
+from todor.schemas.attendee import AttendeeRegisterSchema
+from marshmallow import ValidationError
+
 
 bp = Blueprint("attendee", __name__, url_prefix="/api/v1/attendees")
+attendee_schema = AttendeeRegisterSchema()
 
 @bp.route("/register", methods=["POST"])
 def register_attendee():
-    data = request.get_json()
-    user_id = data.get("user_id")
-    event_id = data.get("event_id")
+    json_data = request.get_json()
+    if not json_data:
+        return jsonify({"error": "No input data provided"}), 400
 
-    if not user_id or not event_id:
-        return jsonify({"error": "user_id and event_id are required"}), 400
+    try:
+        data = attendee_schema.load(json_data)
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+
+    user_id = data["user_id"]
+    event_id = data["event_id"]
 
     event = Event.query.get(event_id)
     if not event:
