@@ -1,8 +1,6 @@
 from flask import Blueprint, request, jsonify
 from todor.extensions import db
 from todor.models.event import Event, EventStatus
-# from datetime import datetime   
-# from flask_jwt_extended import get_jwt, jwt_required
 from todor.schemas.event import EventCreateSchema
 from marshmallow import ValidationError
 import jwt
@@ -31,10 +29,6 @@ def create_event():
 
     if auth_header and auth_header.startswith("Bearer "):
         token = auth_header.split(" ")[1]
-
-
-
-    
     try:
         decoded_token = jwt.decode(token, current_app.config["JWT_SECRET_KEY"], algorithms=["HS256"])
         print("Decoded token:", decoded_token)

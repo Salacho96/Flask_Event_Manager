@@ -1,12 +1,9 @@
 from flask import Flask
 from .config import Config
-# from flask_sqlalchemy import SQLAlchemy
-# from flask_migrate import Migrate
 from flasgger import Swagger
 from todor.extensions import db, migrate
 from .extensions import init_extensions
 from .api.v1 import register_v1_blueprints
-
 from todor.api.v1.auth_routes import bp as auth_bp
 from todor.api.v1.event_routes import bp as event_bp
 from todor.api.v1.attendee_routes import bp as attendee_bp
