@@ -1,15 +1,3 @@
-# from flask import Blueprint
-
-# bp = Blueprint('todo', __name__, url_prefix='/todo')
-
-# @bp.route('/list')
-# def index():
-#     return "lista de eventos"
-
-# @bp.route('/create')
-# def create():
-#     return "crear de eventos"
-
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
